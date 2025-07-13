@@ -1,7 +1,11 @@
 services:
   - type: web
-    name: mcp-server
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uv run main.py
+    name: mcp-fastmcp-backend
+    runtime: python # use Render's Python runtime
+    buildCommand: |
+      uv sync                # fast, lock-file based install
+    startCommand: |
+      uv run python main.py  \
+        --host 0.0.0.0       \
+        --port $PORT         # Render sets $PORT automatically
     plan: free
